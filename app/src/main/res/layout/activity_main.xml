@@ -1,72 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@color/contentContainerColor"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
-    <android.support.design.card.MaterialCardView
-        android:id="@+id/cardView"
-        android:layout_width="match_parent"
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:elevation="16dp"
-        app:cardCornerRadius="22dp">
+        android:layout_centerInParent="true"
+       />
 
-        <LinearLayout
-            android:id="@+id/search_view_container"
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/emptyViewLl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iconIv"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_search" />
+
+        <TextView
+            android:id="@+id/titleTv"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="Questions Search"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/search_edit_text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginBottom="4dp"
-                android:layout_weight="2"
-                android:ems="10"
-                android:hint="@string/search_hint"
-                android:inputType="text" />
+        <TextView
+            android:id="@+id/descriptionTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="You can search for questions based on tags."
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="16sp" />
 
-            <android.support.design.button.MaterialButton
-                android:id="@+id/search_button"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="-5dip"
-                android:layout_marginBottom="-5dip"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingLeft="4dp"
-                android:text="@string/search_button"
-                android:textAppearance="?android:textAppearanceSmall"
-                android:textColor="@android:color/white"
-                android:textSize="20sp"
-                app:cornerRadius="22dp"
-                app:icon="@drawable/ic_search_black_24dp" />
+    </LinearLayout>
 
-
-        </LinearLayout>
-
-
-    </android.support.design.card.MaterialCardView>
-
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/cardView"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:clipToPadding="true"
-        android:scrollbars="vertical" />
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingStart="2dp"
+        android:paddingLeft="2dp"
+        android:paddingTop="60dp"
+        android:paddingEnd="2dp"
+        android:paddingRight="2dp"
+        android:paddingBottom="4dp"
+        android:scrollbars="none" />
+
+    <com.paulrybitskyi.persistentsearchview.PersistentSearchView
+        android:id="@+id/persistentSearchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="4dp"
+        android:paddingLeft="4dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="4dp"
+        android:paddingRight="4dp"
+        android:elevation="2dp"
+        app:cardCornerRadius="8dp"
+        app:cardBackgroundColor="@color/cardBackgroundColor"
+        app:leftButtonDrawable="@drawable/ic_sort_24dp"
+        app:rightButtonDrawable="@drawable/ic_filter_list_24dp"
+        app:clearInputButtonDrawable="@drawable/ic_close_24dp"
+        app:queryInputTextColor="@color/primaryTextColor"
+        app:queryInputHintColor="@color/secondaryTextColor"
+        app:queryInputCursorColor="@color/colorAccent"
+        app:queryInputBarIconColor="@color/iconColor"
+        app:progressBarColor="@color/colorAccent"
+        app:dividerColor="@color/dividerColor"
+        app:suggestionIconColor="@color/suggestionIconColor"
+        app:suggestionRecentSearchIconColor="@color/suggestionIconColor"
+        app:suggestionSearchSuggestionIconColor="@color/suggestionIconColor"
+        app:suggestionTextColor="@color/suggestionTextColor"
+        app:suggestionSelectedTextColor="@color/suggestionSelectedTextColor"
+        />
+
 </RelativeLayout>
