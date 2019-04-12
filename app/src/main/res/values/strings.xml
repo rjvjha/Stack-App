@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">StackApp</string>
+
+    <!-- string values for activity_main  -->
+    <string name="search_hint">Enter a tag name</string>
+    <string name="search_button">search</string>
+</resources>
