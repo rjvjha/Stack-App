@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="question"
+            type="com.example.stackapp.models.Question" />
+    </data>
+
+    <androidx.cardview.widget.CardView xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginBottom="-4dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="4dp">
+
+
+        <LinearLayout
+            android:id="@+id/main_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:orientation="horizontal"
+
+            >
+
+            <LinearLayout
+                android:id="@+id/left_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/score_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/square_shape_decorator"
+                    android:padding="8dp"
+                    android:text="@{question.score}"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/primaryTextColor"
+                    tools:text="21" />
+
+                <TextView
+                    android:id="@+id/votes_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="2dp"
+                    android:text="@string/votesLabel" />
+
+                <TextView
+                    android:id="@+id/answer_count_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/square_shape_decorator"
+                    android:padding="8dp"
+                    android:text="@{question.answer_count}"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/primaryTextColor"
+                    tools:text="20" />
+
+                <TextView
+                    android:id="@+id/answer_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="1dp"
+                    android:text="@string/answers_label" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/right_container"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/title_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:maxLines="3"
+                    android:text="@{question.title}"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/primaryTextColor"
+                    tools:text="How to implement Interface in Java?" />
+
+                <RelativeLayout
+                    android:id="@+id/bottom_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/views_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{question.view_count + `views`}"
+                        android:textColor="@color/blue_dark"
+                        tools:text="500 views" />
+
+                    <TextView
+                        android:id="@+id/answered_tag_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:drawableLeft="@drawable/ic_check_circle_24dp"
+                        android:drawablePadding="1dp"
+                        tools:text="Answered" />
+
+                    <TextView
+                        android:id="@+id/creation_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentRight="true"
+                        android:padding="1dp"
+                        tools:text="asked Apr 5 18 at 15:55" />
+
+                    <TextView
+                        android:id="@+id/last_modified_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/creation_tv"
+                        android:layout_alignParentRight="true"
+                        android:padding="1dp"
+                        tools:text="modified Apr 6 2018 at 04:09" />
+
+                    <ImageView
+                        android:id="@+id/user_profile_iv"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_below="@id/last_modified_tv"
+                        android:layout_margin="8dp"
+                        android:layout_toLeftOf="@id/user_name_tv"
+                        tools:src="@drawable/photo" />
+
+                    <TextView
+                        android:id="@+id/user_name_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/last_modified_tv"
+                        android:layout_alignBottom="@id/user_profile_iv"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="8dp"
+                        android:layout_marginRight="10dp"
+                        android:text="@{question.owner.display_name}"
+                        android:textColor="@color/primaryTextColor"
+                        tools:text="Stuart23" />
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</layout>
+

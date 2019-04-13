@@ -4,4 +4,6 @@
     <!-- string values for activity_main  -->
     <string name="search_hint">Enter a tag name</string>
     <string name="search_button">search</string>
+    <string name="votesLabel">votes</string>
+    <string name="answers_label">answers</string>
 </resources>
