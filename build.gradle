@@ -4,7 +4,12 @@ buildscript {
 
 
     ext {
-        psvVersion = "1.0.0"
+        psvVersion = "1.1.0"
+        workVersion = "2.0.1"
+        glideVersion = '4.4.0'
+        gsonVersion = '2.8.2'
+        lifecycleVersion = '2.0.0'
+        roomVersion = '2.0.0-beta01'
     }
 
     repositories {
