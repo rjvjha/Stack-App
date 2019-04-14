@@ -6,4 +6,10 @@
     <string name="search_button">search</string>
     <string name="votesLabel">votes</string>
     <string name="answers_label">answers</string>
+    <string name="answered_true">answered</string>
+    <string name="answered_false">unanswered</string>
+    <string name="asked_label">asked</string>
+    <string name="modified_label">modified</string>
+
+
 </resources>

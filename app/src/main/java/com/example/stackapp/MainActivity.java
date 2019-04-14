@@ -8,8 +8,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.stackapp.adapter.QuestionAdapter;
 import com.example.stackapp.data.TagDao;
 import com.example.stackapp.data.TagDatabase;
+import com.example.stackapp.models.Owner;
+import com.example.stackapp.models.Question;
 import com.example.stackapp.models.Tag;
 import com.paulrybitskyi.persistentsearchview.adapters.model.SuggestionItem;
 import com.paulrybitskyi.persistentsearchview.listeners.OnSearchConfirmedListener;
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout mEmptyView;
     public PersistentSearchView persistentSearchView;
     private List<String> mInitialTagNames;
+    private QuestionAdapter mQuestionAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initRecyclerView();
 
 
-
-
     }
-
 
     private void initProgressBar(){
         mProgressBar = findViewById(R.id.progressBar);
@@ -69,7 +70,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ResourceHelper.dpToPx(2),
                 ResourceHelper.dpToPx(2)));
 
-        // TODO : Attach adapter once Adapter class is created
+
+        // Todo : change when live data is available
+        mQuestionAdapter = new QuestionAdapter(getDummyData());
+        mRecyclerView.setAdapter(mQuestionAdapter);
+
+
+    }
+
+
+    private List<Question> getDummyData(){
+
+        Owner owner = new Owner("https://www.gravatar.com/avatar/587a00be520dfc4b97e0ad3015e07b25?s=128&d=identicon&r=PG",
+                "registered", "1675767", "https://stackoverflow.com/users/1753323/user1753323", "6757", "user321",
+                "");
+        Question question = new Question(owner, "shakkasakshk", "1555233640", "1555233645",
+                "45000", "How to implement Interface in Java?",
+                "123",
+                "78", "true", "300", "1555233640");
+
+        List<Question> list = new ArrayList<>(15);
+
+        for(int i = 0; i < 15; i++){
+            list.add(question);
+        }
+
+        return list;
+
 
     }
 

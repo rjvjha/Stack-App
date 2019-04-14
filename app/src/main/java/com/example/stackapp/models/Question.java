@@ -5,7 +5,6 @@ import com.example.stackapp.utils.Converters;
 import androidx.room.TypeConverters;
 
 // POJO Class for Question
-@TypeConverters(Converters.class)
 public class Question {
 
     private Owner owner;
