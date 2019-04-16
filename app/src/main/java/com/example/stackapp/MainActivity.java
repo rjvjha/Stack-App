@@ -334,9 +334,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
 
-                setSuggestionTagsList(mInitialTagNames, false);
-
             }
+
+            setSuggestionTagsList(mInitialTagNames, false);
 
 
         }
