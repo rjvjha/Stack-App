@@ -7,14 +7,13 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.stackapp.R;
 import com.example.stackapp.databinding.ItemLayoutBinding;
 import com.example.stackapp.models.Question;
 import com.example.stackapp.utils.Converters;
+import com.example.stackapp.utils.TaskHelper;
 
 import java.util.List;
 
@@ -52,8 +51,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
     private View.OnClickListener createClickListener(String linkUrl) {
         return view -> {
 
-            // TODO: implement item click listener here
-            Toast.makeText(view.getContext(), "Item clicked", Toast.LENGTH_SHORT).show();
+            TaskHelper.openCustomChromeTab(mContext, linkUrl);
 
         };
     }
@@ -80,6 +78,13 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
     public void updateItems(List<Question> questions) {
         questionsList.clear();
         questionsList.addAll(questions);
+        notifyDataSetChanged();
+    }
+
+    // public helper method to update filter search items
+
+    public void updateFilterResults(List<Question> questions) {
+        questionsList = questions;
         notifyDataSetChanged();
     }
 

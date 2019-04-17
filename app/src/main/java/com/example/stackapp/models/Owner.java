@@ -3,8 +3,11 @@ package com.example.stackapp.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 // POJO class for Owner
-public class Owner {
+
+public class Owner implements Serializable {
 
     @SerializedName("profile_image")
     private String profile_image;

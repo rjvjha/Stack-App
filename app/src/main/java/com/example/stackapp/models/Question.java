@@ -1,12 +1,11 @@
 package com.example.stackapp.models;
 
-import com.example.stackapp.utils.Converters;
 import com.google.gson.annotations.SerializedName;
 
-import androidx.room.TypeConverters;
+import java.io.Serializable;
 
 // POJO Class for Question
-public class Question {
+public class Question implements Serializable {
 
     @SerializedName("owner")
     private Owner owner;

@@ -11,6 +11,9 @@
     <color name="blue_dark">#4986bc</color>
     <color name="answered_tag_color"></color>
 
+    <color name="filter_drawable_color">#e91e63</color>
+    <color name="filter_drawable_color_dark">#9c27b0</color>
+
 
     <color name="contentContainerColor">#eeeeee</color>
     <color name="cardBackgroundColor">#ffffff</color>
