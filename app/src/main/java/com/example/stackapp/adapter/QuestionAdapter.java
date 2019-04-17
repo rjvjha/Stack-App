@@ -18,6 +18,7 @@ import com.example.stackapp.utils.TaskHelper;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -125,12 +126,14 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
             if (!isAnswered) {
                 binding.answeredTagTv.setText(R.string.answered_false);
                 if (drawable != null) {
-                    DrawableCompat.setTint(drawable, Color.GRAY);
+                    DrawableCompat.setTint(drawable, ContextCompat.getColor(mContext, R.color.iconColor));
                 }
             } else {
                 binding.answeredTagTv.setText(R.string.answered_true);
                 if (drawable != null) {
-                    DrawableCompat.setTint(drawable, Color.GREEN);
+                    DrawableCompat.setTint(drawable,
+                            ContextCompat.getColor(mContext,
+                            R.color.answered_tag_color));
                 }
             }
 

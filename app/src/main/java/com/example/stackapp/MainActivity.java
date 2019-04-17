@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Consts.SORT_BY_VOTES};
     private List<String> mInitialTagNames;
     private QuestionAdapter mQuestionAdapter;
+
     // called when user had entered the query
     private OnSearchConfirmedListener mOnSearchConfirmedListener = new OnSearchConfirmedListener() {
         @Override
@@ -267,7 +268,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void loadTagData() {
         GetSuggestedTagsAsyncTask asyncTask = new GetSuggestedTagsAsyncTask(TagDatabase.
                 getInstance(this.getApplicationContext()).tagDao());
-        asyncTask.execute();
+
+        // load suggestions when not available
+        if(mInitialTagNames == null || mInitialTagNames.isEmpty()){
+            asyncTask.execute();
+        }
+
     }
 
     // sets suggestionList to persistentSearchView
@@ -286,6 +292,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // helper method to perform search operation
     private void performSearch(String query, String sort) {
 
+        mMode = SearchModes.QUERY_SEARCH_RESULT;
         mEmptyView.setVisibility(View.GONE);
         mRecyclerView.setAlpha(0f);
         mProgressBar.setVisibility(View.VISIBLE);
@@ -433,7 +440,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 persistentSearchView.setRightButtonDrawable(drawable);
                 mMode = SearchModes.QUERY_SEARCH_RESULT;
                 persistentSearchView.setSuggestionsDisabled(false);
-                setSuggestionTagsList(mInitialTagNames, false);
+                persistentSearchView.setInputQuery("");
+                persistentSearchView.expand(false);
 
             } else {
                 //handles Search filter On behaviour
@@ -465,7 +473,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         // calling loadTagData
         loadTagData();
-
 
         if ((persistentSearchView.isInputQueryEmpty() && (mQuestionAdapter.getItemCount() == 0) ||
                 persistentSearchView.isExpanded())) {
@@ -555,10 +562,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     mInitialTagNames.add(tag.getName());
 
                 }
+                setSuggestionTagsList(mInitialTagNames, false);
 
             }
 
-            setSuggestionTagsList(mInitialTagNames, false);
+
 
 
         }
