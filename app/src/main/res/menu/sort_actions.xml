@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item android:id="@+id/sort_activity"
+        android:title="@string/sort_activity_label"
+        />
+
+    <item android:id="@+id/sort_creation"
+        android:title="@string/sort_creation_label"
+        />
+    <item android:id="@+id/sort_votes"
+        android:title="@string/sort_votes_label"
+        />
+
+
+
+</menu>

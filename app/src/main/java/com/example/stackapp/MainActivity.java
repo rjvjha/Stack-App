@@ -2,18 +2,27 @@ package com.example.stackapp;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Gravity;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.stackapp.adapter.QuestionAdapter;
 import com.example.stackapp.data.TagDao;
 import com.example.stackapp.data.TagDatabase;
-import com.example.stackapp.models.Owner;
 import com.example.stackapp.models.Question;
+import com.example.stackapp.models.QuestionList;
 import com.example.stackapp.models.Tag;
+import com.example.stackapp.network.RemoteCallsInterface;
+import com.example.stackapp.network.RetrofitInstance;
+import com.example.stackapp.utils.Consts;
 import com.paulrybitskyi.persistentsearchview.adapters.model.SuggestionItem;
 import com.paulrybitskyi.persistentsearchview.listeners.OnSearchConfirmedListener;
 import com.paulrybitskyi.persistentsearchview.listeners.OnSearchQueryChangeListener;
@@ -31,11 +40,20 @@ import java.util.List;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private static List<Question> sData = new ArrayList<>();
+    private String [] sortOptions = {Consts.SORT_BY_ACTIVITY,
+            Consts.SORT_BY_CREATION,
+            Consts.SORT_BY_VOTES};
+    private static String sCurrentQuery;
+    private PopupMenu mPopupMenu;
     private ProgressBar mProgressBar;
     private RecyclerView mRecyclerView;
     private LinearLayout mEmptyView;
@@ -70,39 +88,69 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ResourceHelper.dpToPx(2),
                 ResourceHelper.dpToPx(2)));
 
+        if(sData ==null || sData.isEmpty()){
+            mQuestionAdapter = new QuestionAdapter(new ArrayList<>());
+        } else{
+            mQuestionAdapter = new QuestionAdapter(sData);
+        }
 
-        // Todo : change when live data is available
-        mQuestionAdapter = new QuestionAdapter(getDummyData());
+
         mRecyclerView.setAdapter(mQuestionAdapter);
 
 
     }
 
+    // private helper method to get data from network using Retrofit
+    private void getSearchData(String tag, String sort){
 
-    private List<Question> getDummyData(){
 
-        Owner owner = new Owner("https://www.gravatar.com/avatar/587a00be520dfc4b97e0ad3015e07b25?s=128&d=identicon&r=PG",
-                "registered", "1675767", "https://stackoverflow.com/users/1753323/user1753323", "6757", "user321",
-                "");
-        Question question = new Question(owner, "shakkasakshk", "1555233640", "1555233645",
-                "45000", "How to implement Interface in Java?",
-                "123",
-                "78", "true", "300", "1555233640");
+        RemoteCallsInterface service = RetrofitInstance.getRetrofit()
+                .create(RemoteCallsInterface.class);
 
-        List<Question> list = new ArrayList<>(15);
+        Call<QuestionList> listQues = service.getQuestions(sort, tag, Consts.SITE);
 
-        for(int i = 0; i < 15; i++){
-            list.add(question);
-        }
+        listQues.enqueue(new Callback<QuestionList>() {
+            @Override
+            public void onResponse(Call<QuestionList> call, Response<QuestionList> response) {
+                // User feedback
+                persistentSearchView.hideProgressBar(false);
+                persistentSearchView.showLeftButton();
 
-        return list;
+                sData = response.body().getQuestionList();
+                mQuestionAdapter.updateItems(sData);
+
+                mProgressBar.setVisibility(View.GONE);
+                mRecyclerView.animate()
+                        .alpha(1f)
+                        .setInterpolator(new LinearInterpolator())
+                        .setDuration(300L)
+                        .start();
+
+            }
+
+            @Override
+            public void onFailure(Call<QuestionList> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Something went wrong! Try again later.", Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
+
+            }
+        });
+        
 
 
     }
 
     private void initEmptyView(){
         mEmptyView = findViewById(R.id.emptyViewLl);
-        // TODO: make changes when data is loaded from remote
+
+        if(!sData.isEmpty()){
+
+            mEmptyView.setVisibility(
+                    (sData.isEmpty() ? View.VISIBLE : View.GONE)
+            );
+
+
+        }
 
 
     }
@@ -162,8 +210,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     // helper method to perform search operation
-    private void performSearch(String query){
-        // Todo: implement search operation
+    private void performSearch(String query, String sort){
+
+        mEmptyView.setVisibility(View.GONE);
+        mRecyclerView.setAlpha(0f);
+        mProgressBar.setVisibility(View.VISIBLE);
+        mQuestionAdapter.clear();
+
+        Runnable searchTask = () -> getSearchData(query,sort);
+
+        new Handler().post(searchTask);
+
+
+        persistentSearchView.hideLeftButton(false);
+        persistentSearchView.showProgressBar();
+
+
 
     }
 
@@ -197,8 +259,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (id){
 
             case R.id.leftBtnIv:
-                // sorting button
-                sortSearchResult();
+
+                // handles sorting button clicks
+                if(sCurrentQuery !=null && !sCurrentQuery.isEmpty()){
+                    showSortPopupMenu(v);
+                }
+
                 break;
             case R.id.clearInputBtnIv:
                 // clear Button function
@@ -214,9 +280,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    // private helper method to show sortBy popup menu
+    private void showSortPopupMenu(View view){
+        if(mPopupMenu == null){
+            mPopupMenu = new PopupMenu(this, view);
+            MenuInflater menuInflater = mPopupMenu.getMenuInflater();
+            menuInflater.inflate(R.menu.sort_actions, mPopupMenu.getMenu());
+        }
+
+        mPopupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                switch (item.getItemId()){
+
+
+                    case R.id.sort_activity:
+                        performSearch(sCurrentQuery,sortOptions[0]);
+                        break;
+
+                    case R.id.sort_creation:
+                        performSearch(sCurrentQuery,sortOptions[1]);
+                        break;
+
+                    case R.id.sort_votes:
+                        performSearch(sCurrentQuery, sortOptions[2]);
+                        break;
+
+                }
+
+                //popupMenu.dismiss();
+                return true;
+            }
+        });
+
+
+        mPopupMenu.show();
+
+    }
+
     private void filterSearchResult() {
         /* TODO: imlement filter search result */
-        Toast.makeText(this, "Filter button clicked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Search Filter is on!", Toast.LENGTH_SHORT).show();
+
     }
 
     private void clearButtonBehaviour() {
@@ -224,12 +330,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private void sortSearchResult() {
-        /* TODO: imlement sort search result */
-        Toast.makeText(this, "sort button clicked", Toast.LENGTH_SHORT).show();
 
-
-    }
 
     /* Listeners callbacks */
 
@@ -238,8 +339,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onSearchConfirmed(PersistentSearchView searchView, String query) {
             // do search operation here
+
             searchView.collapse();
-            performSearch(query);
+            sCurrentQuery = query;
+            performSearch(query, sortOptions[0]);
 
 
         }
@@ -260,6 +363,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private OnSuggestionChangeListener mOnSuggestionChangeListener = new OnSuggestionChangeListener() {
+
         @Override
         public void onSuggestionPicked(SuggestionItem suggestion) {
             // Handle a suggestion pick event. This is the place where you'd
@@ -268,7 +372,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             setSuggestionTagsList(getSuggestionForQuery(query), false);
 
-            performSearch(query);
+            sCurrentQuery = query;
+            performSearch(query,sortOptions[0]);
         }
 
         @Override
@@ -279,11 +384,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
 
         // calling loadTagData
         loadTagData();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+        if ((persistentSearchView.isInputQueryEmpty() && (mQuestionAdapter.getItemCount() == 0) ||
+                persistentSearchView.isExpanded())) {
+
+            persistentSearchView.expand(false);
+
+            getWindow().setSoftInputMode(
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE |
+                    WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+
+        } else {
+
+            getWindow().setSoftInputMode(
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN |
+                    WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+        }
+
+
 
     }
 

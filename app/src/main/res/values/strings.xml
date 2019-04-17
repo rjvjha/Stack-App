@@ -11,5 +11,9 @@
     <string name="asked_label">asked</string>
     <string name="modified_label">modified</string>
 
+    <string name="sort_activity_label">Activity</string>
+    <string name="sort_creation_label">Creation</string>
+    <string name="sort_votes_label">Votes</string>
+
 
 </resources>

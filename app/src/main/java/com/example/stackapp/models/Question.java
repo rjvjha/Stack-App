@@ -1,32 +1,44 @@
 package com.example.stackapp.models;
 
 import com.example.stackapp.utils.Converters;
+import com.google.gson.annotations.SerializedName;
 
 import androidx.room.TypeConverters;
 
 // POJO Class for Question
 public class Question {
 
+    @SerializedName("owner")
     private Owner owner;
 
+    @SerializedName("link")
     private String link;
 
+    @SerializedName("last_activity_date")
     private String last_activity_date;
 
+    @SerializedName("creation_date")
     private String creation_date;
 
+    @SerializedName("answer_count")
     private String answer_count;
 
+    @SerializedName("title")
     private String title;
 
+    @SerializedName("question_id")
     private String question_id;
 
+    @SerializedName("score")
     private String score;
 
+    @SerializedName("is_answered")
     private String is_answered;
 
+    @SerializedName("view_count")
     private String view_count;
 
+    @SerializedName("last_edit_date")
     private String last_edit_date;
 
     public Question(Owner owner, String link, String last_activity_date, String creation_date,

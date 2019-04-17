@@ -40,12 +40,12 @@
             android:orientation="horizontal"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            android:paddingBottom="4dp">
+            android:paddingBottom="8dp">
 
             <LinearLayout
                 android:id="@+id/left_container"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_weight="0"
@@ -97,8 +97,10 @@
                     android:maxLines="3"
                     android:paddingTop="4dp"
                     android:paddingBottom="4dp"
-                    android:text="@{question.title}"
-                    android:textAppearance="?android:textAppearanceMedium"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textAppearance="?android:textAppearanceSmall"
                     android:textColor="@color/primaryTextColor"
                     tools:text="How to implement Interface in Java?" />
 
@@ -141,37 +143,6 @@
                         android:layout_weight="2"
                         android:orientation="vertical">
 
-                        <RelativeLayout
-                            android:id="@+id/user_info_container"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-
-                            <ImageView
-                                android:id="@+id/user_profile_iv"
-                                android:layout_width="36dp"
-                                android:layout_height="36dp"
-                                android:layout_alignParentEnd="true"
-                                tools:src="@drawable/photo" />
-
-
-                            <TextView
-                                android:id="@+id/user_name_tv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginEnd="4dp"
-                                android:layout_toLeftOf="@id/user_profile_iv"
-                                android:text="@{question.owner.display_name}"
-                                android:textColor="@color/primaryTextColor"
-                                android:textSize="16sp"
-                                tools:text="Stuart23" />
-
-                        </RelativeLayout>
-
-
-
-
                         <TextView
                             android:id="@+id/creation_tv"
                             tools:text="asked Apr 5 18 at 15:55"
@@ -181,6 +152,40 @@
                             android:id="@+id/last_modified_tv"
                             style="@style/date_time_style"
                             tools:text="modified Apr 6 2018 at 04:90" />
+
+                        <RelativeLayout
+                            android:id="@+id/user_info_container"
+                            android:layout_width="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="bottom"
+                            android:layout_height="match_parent">
+
+
+                            <ImageView
+                                android:id="@+id/user_profile_iv"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:layout_alignParentEnd="true"
+                                android:padding="1dp"
+                                android:scaleType="centerCrop"
+                                tools:src="@drawable/photo" />
+
+
+                            <TextView
+                                android:id="@+id/user_name_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="2dp"
+                                android:layout_toLeftOf="@id/user_profile_iv"
+                                android:maxLines="1"
+                                android:padding="4dp"
+                                android:layout_centerVertical="true"
+                                android:text="@{question.owner.display_name}"
+                                android:textColor="@color/primaryTextColor"
+                                tools:text="Stuart23" />
+
+                        </RelativeLayout>
+
 
 
                     </LinearLayout>

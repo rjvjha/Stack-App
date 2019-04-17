@@ -9,6 +9,7 @@
 
     <color name="blue">#529ecc</color>
     <color name="blue_dark">#4986bc</color>
+    <color name="answered_tag_color"></color>
 
 
     <color name="contentContainerColor">#eeeeee</color>

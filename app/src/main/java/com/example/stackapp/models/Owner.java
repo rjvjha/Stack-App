@@ -1,21 +1,30 @@
 package com.example.stackapp.models;
 
 
+import com.google.gson.annotations.SerializedName;
+
 // POJO class for Owner
 public class Owner {
 
+    @SerializedName("profile_image")
     private String profile_image;
 
+    @SerializedName("user_type")
     private String user_type;
 
+    @SerializedName("user_id")
     private String user_id;
 
+    @SerializedName("link")
     private String link;
 
+    @SerializedName("reputation")
     private String reputation;
 
+    @SerializedName("display_name")
     private String display_name;
 
+    @SerializedName("accept_rate")
     private String accept_rate;
 
 

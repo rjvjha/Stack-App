@@ -40,11 +40,16 @@ public class Converters {
 
 
     public static String toFormattedDateTime(String timeStamp){
-        Long value = Long.parseLong(timeStamp);
-        // convert to miliseconds
-        Date date = new Date(value * 1000);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd LLL, yyyy 'at' HH:mm");
-        return sdf.format(date);
+
+        if(timeStamp!=null && !timeStamp.isEmpty()){
+            Long value = Long.parseLong(timeStamp);
+            // convert to miliseconds
+            Date date = new Date(value * 1000);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd LLL, yyyy 'at' HH:mm");
+            return sdf.format(date);
+
+        }
+        return " ";
     }
 
     public static String toFormattedTitle(String title){

@@ -19,6 +19,7 @@ import com.example.stackapp.utils.Converters;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -75,11 +76,24 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
         return 0;
     }
 
+    // public helper method to update items
     public void updateItems(List<Question> questions) {
         questionsList.clear();
         questionsList.addAll(questions);
         notifyDataSetChanged();
     }
+
+    // public helper method to clear existing data in Adapter
+    public void clear(){
+
+        if(questionsList!=null){
+            questionsList.clear();
+            notifyDataSetChanged();
+        }
+    }
+
+
+
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -100,31 +114,43 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
 
             boolean isAnswered = Boolean.parseBoolean(question.getIs_answered());
 
-            Drawable drawable = binding.answeredTagTv.getCompoundDrawables()[0];
+            Drawable drawable = binding.answeredTagTv.getCompoundDrawables()[2].mutate();
 
             // changing answerTag
-           if(!isAnswered){
-               binding.answeredTagTv.setText(R.string.answered_false);
-               if(drawable!= null){
-                  drawable.setTint(Color.RED);
-               }
-           } else {
-               binding.answeredTagTv.setText(R.string.answered_true);
-               if(drawable!= null){
-                   drawable.setTint(Color.GREEN);
-               }
-           }
+            if (!isAnswered) {
+                binding.answeredTagTv.setText(R.string.answered_false);
+                if (drawable != null) {
+                    DrawableCompat.setTint(drawable, Color.GRAY);
+                }
+            } else {
+                binding.answeredTagTv.setText(R.string.answered_true);
+                if (drawable != null) {
+                    DrawableCompat.setTint(drawable, Color.GREEN);
+                }
+            }
 
-           // set Creation modified date-time
-           binding.creationTv.setText
-                   (mContext.getString(R.string.asked_label) + " " + Converters.toFormattedDateTime(question.getCreation_date()));
-           binding.lastModifiedTv.setText(
-                   mContext.getString(R.string.modified_label) + " " + Converters.toFormattedDateTime(question.getLast_edit_date()));
+            // set formatted title
+            binding.titleTv.setText(Converters.toFormattedTitle(question.getTitle()));
 
-           // convert >1000 values in Score, answers, views
+            // set Creation modified date-time
+            binding.creationTv.setText
+                    (mContext.getString(R.string.asked_label) + " " + Converters.toFormattedDateTime(question.getCreation_date()));
+
+
+            // if last edit_date is null
+            if (question.getLast_edit_date() != null && !question.getLast_edit_date().isEmpty()) {
+                binding.lastModifiedTv.setText(
+                        mContext.getString(R.string.modified_label) + " " +
+                                Converters.toFormattedDateTime(question.getLast_edit_date()));
+            } else{
+                binding.lastModifiedTv.setVisibility(View.GONE);
+            }
+
+
+            // convert >1000 values in Score, answers, views
             binding.scoreTv.setText(Converters.format(Long.parseLong(question.getScore())));
             binding.answerCountTv.setText(Converters.format(Long.parseLong(question.getAnswer_count())));
-            binding.viewsTv.setText(Converters.format(Long.parseLong(question.getView_count())) + " " +"views");
+            binding.viewsTv.setText(Converters.format(Long.parseLong(question.getView_count())) + " " + "views");
 
 
             // load Profile Image from glide
