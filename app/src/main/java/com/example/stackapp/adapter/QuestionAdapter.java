@@ -2,26 +2,26 @@ package com.example.stackapp.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.bumptech.glide.Glide;
-import com.example.stackapp.R;
-import com.example.stackapp.databinding.ItemLayoutBinding;
-import com.example.stackapp.models.Question;
-import com.example.stackapp.utils.Converters;
-import com.example.stackapp.utils.TaskHelper;
-
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.example.stackapp.DetailActivity;
+import com.example.stackapp.R;
+import com.example.stackapp.databinding.ItemLayoutBinding;
+import com.example.stackapp.models.Question;
+import com.example.stackapp.utils.Converters;
+
+import java.util.List;
 
 public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHolder> {
 
@@ -49,10 +49,16 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
     }
 
 
-    private View.OnClickListener createClickListener(String linkUrl) {
+    private View.OnClickListener createClickListener(Question question) {
         return view -> {
 
-            TaskHelper.openCustomChromeTab(mContext, linkUrl);
+            //TaskHelper.openCustomChromeTab(mContext, linkUrl);
+
+            // launch Detail Activity
+            Intent intent = new Intent(mContext, DetailActivity.class);
+            intent.putExtra("question", question);
+            mContext.startActivity(intent);
+
 
         };
     }
@@ -61,7 +67,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         Question question = questionsList.get(position);
-        holder.bind(question, createClickListener(question.getLink()));
+        holder.bind(question, createClickListener(question));
 
     }
 

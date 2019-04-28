@@ -130,6 +130,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
+                            android:textStyle="bold"
                             android:drawableRight="@drawable/ic_check_circle_24dp"
                             android:drawablePadding="2dp"
                             tools:text="Answered" />

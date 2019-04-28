@@ -14,6 +14,12 @@
     <string name="sort_activity_label">Activity</string>
     <string name="sort_creation_label">Creation</string>
     <string name="sort_votes_label">Votes</string>
+    <string name="title_activity_detail">Answers</string>
+
+    <string name="top_answers_label">Top Answers</string>
+    <string name="accepted">accepted</string>
+    <string name="answer_button_label">Answer this question on Stack overflow</string>
+    <string name="no_answer_string">No answer is available to this question.</string>
 
 
 </resources>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="answer"
+            type="com.example.stackapp.models.Answer" />
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginBottom="-4dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
+        app:cardUseCompatPadding="true">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:baselineAligned="false"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{clickListener}"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/score_tv"
+                style="@style/counter_style"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
+                tools:text="65" />
+
+            <TextView
+                android:id="@+id/votes_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/score_tv"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="@string/votesLabel"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/user_profile"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginStart="8dp"
+                android:maxWidth="20dp"
+                android:maxHeight="20dp"
+                tools:layout_editor_absoluteY="1dp"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/creation_date_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/user_profile"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="4dp"
+                android:maxLines="1"
+                android:textSize="12sp"
+                tools:text="creation date" />
+
+            <TextView
+                android:id="@+id/user_name_tV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_toLeftOf="@id/user_profile"
+                android:maxLines="2"
+                android:text="@{answer.owner.display_name}"
+                android:textColor="@color/primaryTextColor"
+                tools:text="usernameasiudh" />
+
+            <TextView
+                android:id="@+id/accepted_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@+id/score_tv"
+                android:drawableRight="@drawable/ic_check_circle_24dp"
+                android:text="@string/accepted"
+                android:textColor="@color/primaryTextColor"
+                android:textStyle="bold" />
+
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</layout>
